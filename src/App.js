@@ -1,18 +1,24 @@
-import React from 'react';
-import styled from 'styled-components'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
+import Welcome from './components/Welcome';
+import Auth from './components/Auth'
+
+
 
 function App() {
+
   return (
-    <AppContainer>
-      <MainDialog>
-        <div className="row">
-          <h1>Welcome to <br/>Mud-Hunt</h1>
-        </div>
-        <div className="row to-the-right">
-          <button>LETS PLAY</button>
-        </div>      
-      </MainDialog>
-    </AppContainer>
+    <Router>
+      <Switch>
+        <AppContainer>
+        <MainDialog>
+          <Route exact path="/" render={props => <Welcome {...props} />} />
+          <Route exact path="/auth" render={props => <Auth {...props} />} />
+        </MainDialog>
+        </AppContainer>
+      </Switch>
+    </Router>
   );
 }
 
@@ -24,10 +30,16 @@ const AppContainer = styled.div`
 `;
 
 const MainDialog = styled.div`
+  display:flex;
+  flex-direction:column;
+  align-content:center;
   width: 60%;
-  padding-top:20vw;
+  max-width:900px;  
+  min-width:400px;  
+  padding-top:10vw;
   margin:0 auto;
   h1 {
     color:white;
+    text-align:center;
   }
 `;
