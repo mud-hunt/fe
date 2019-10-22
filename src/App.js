@@ -25,8 +25,7 @@ function App() {
 export default App;
 
 const AppContainer = styled.div`
-  background: #ff7577;
-  height:100vw;
+  height:100%;
 `;
 
 const MainDialog = styled.div`
@@ -40,12 +39,9 @@ const MainDialog = styled.div`
   margin:0 auto;
   h1 {
     color:white;
-    text-align:center;
   }
   @media (max-width: 500px) {
-    padding-top:0vw;
-    h1 {
-      padding:10px;
-    }
+    padding-top:10vw;
+    min-width:100%;  
   }
 `;

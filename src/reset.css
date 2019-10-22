@@ -254,6 +254,11 @@ button.big{
         font-size: 2rem;
         margin: 0 auto;
     }
+    button.big{
+        padding: 10px 5px;
+        font-size: 2.5rem;
+        border-radius:30px;
+    }
 }
 
 button:hover{
@@ -325,14 +330,11 @@ body {
     font-style: normal;
     letter-spacing: 0;
     text-rendering: optimizeLegibility;
-    background: #fff;
+    background: #ff7577;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -moz-font-feature-settings: "liga" on;
-    border:10px solid white;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
 }
 
 ::selection {
@@ -491,7 +493,7 @@ h1 {
 }
 
 h2 {
-    margin: 1.5em 0 0.5em 0;
+    margin: 0 0 0.5em 0;
     font-size: 5rem;
 }
 @media (max-width: 500px) {
@@ -568,18 +570,24 @@ input {
     padding: 20px;
     width: 60%;
     border:none;
-    border-bottom: 1px solid white;
+    border-left: 1px solid white;
     color: cornsilk;
     margin-bottom: 20px;
 }
 
+::-webkit-input-placeholder {
+    color: #fff;
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
 @media (max-width: 500px) {
     input {
-        margin-bottom: 0px;
+        margin-bottom: 5px;
         margin-left: 5px;
         padding: 10px;
     }
     .half{
-        width: 50%;
+        width: 70%;
     }
 }

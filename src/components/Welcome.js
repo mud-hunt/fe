@@ -2,12 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 
-const Welcome = (props) => {
+const Welcome = () => {
 
-    const onNext = (event) =>{
-        event.preventDefault();
-        
-    }
         return(
             <>
             <div className="row">
