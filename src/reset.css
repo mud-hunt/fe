@@ -129,9 +129,10 @@ img {
     max-width: 100%;
 }
 html {
-    box-sizing: border-box;
-    font-family: sans-serif;
-
+	font-family: 'Montserrat', 'Muli', sans-serif;
+    font-family: 'Righteous', cursive;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Nunito', sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
 }
@@ -227,6 +228,23 @@ input::-moz-focus-inner {
     padding: 0;
     border: 0;
 }
+
+button{
+    border-radius:25px;
+    min-width: 200px;
+    padding: 10px 0px;
+    color: #ff7577;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    background:white;
+}
+
+button:hover{
+    transition: all 0.3s ease 0s;
+    transform: translateY(-7px);
+}
+
 input {
     line-height: normal;
 }
@@ -281,7 +299,10 @@ html {
 body {
     overflow-x: hidden;
     color: color(var(--midgrey) l(-25%));
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-family: 'Montserrat', 'Muli', sans-serif;
+    font-family: 'Righteous', cursive;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Nunito', sans-serif;
     font-size: 1.5rem;
     line-height: 1.6em;
     font-weight: 400;
@@ -429,6 +450,7 @@ h3,
 h4,
 h5,
 h6 {
+    font-family: 'Righteous', cursive;
     margin-top: 0;
     line-height: 1.15;
     font-weight: 700;
@@ -437,8 +459,10 @@ h6 {
 
 h1 {
     margin: 0 0 0.5em 0;
-    font-size: 5rem;
+    font-size: 6vw;
+    color: #494949;
     font-weight: 700;
+    text-align: center;
 }
 @media (max-width: 500px) {
     h1 {
@@ -483,4 +507,14 @@ h6 {
     margin: 1.5em 0 0.5em 0;
     font-size: 1.4rem;
     font-weight: 500;
+}
+
+.row{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.row.to-the-right{
+    justify-content: flex-end;
 }
