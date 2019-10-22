@@ -330,6 +330,9 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -moz-font-feature-settings: "liga" on;
+    border:10px solid white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 ::selection {
