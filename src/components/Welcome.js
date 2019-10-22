@@ -13,9 +13,9 @@ const Welcome = (props) => {
             <div className="row">
                 <h1>Welcome to Mud-Hunt</h1>
             </div>
-            <div className="row to-the-right">
+            <div className="row center">
                 <Link to="/auth">
-                    <button>LETS PLAY</button>
+                    <button className="big">LETS PLAY</button>
                 </Link>
             </div>
             </>

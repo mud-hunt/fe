@@ -42,4 +42,11 @@ const MainDialog = styled.div`
     color:white;
     text-align:center;
   }
+  @media (max-width: 500px) {
+    padding-top:0vw;
+    h1 {
+      border:1px solid white;
+      padding:10px;
+    }
+  }
 `;
