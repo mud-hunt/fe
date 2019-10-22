@@ -4,6 +4,16 @@ import React, { useState } from 'react'
 const Auth = (props) => {
 
     const [ action, setAction ] = useState('register')
+    
+    const [details, updateInputChangeState] = useState({
+        email: '',
+        password1: '',
+        password2: ''
+    });
+
+    const handleChange = () => {
+        console.log('changed')
+    };
 
     const toggleStyle = (event) =>{
         event.preventDefault();
@@ -29,6 +39,8 @@ const Auth = (props) => {
                     type="text"
                     placeholder="Your user name"
                     name="username"
+                    value={details.username}
+                    onChange={handleChange}
                 />
                 </div>
                 <div className="row">
@@ -37,6 +49,8 @@ const Auth = (props) => {
                     placeholder="Password"
                     name="password"
                     className="half"
+                    value={details.password1}
+                    onChange={handleChange}
                 />
                 </div>
                 <div className="row">
@@ -45,8 +59,10 @@ const Auth = (props) => {
                     <input
                     type="password"
                     placeholder="Confirm password"
+                    value={details.password2}
                     name="password"
                     className="half"
+                    onChange={handleChange}
                 />
                 }
                 </div>
