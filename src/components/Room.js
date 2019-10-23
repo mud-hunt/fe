@@ -3,9 +3,19 @@ import styled from 'styled-components'
 import compass from '../assets/compass-2.png'
 
 
-const getRoomDetails = ()=>{
+const getRoomDetails = (next=false)=>{
     // should call axios --> init end-point
-    return {
+    if (next) {
+        return {
+            "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
+            "name": "testuser",
+            "roomId": 29,
+            "title": "Room 29 title",
+            "description": "Room 29 description",
+            "players": ['player1', 'player2', 'player3']
+        }
+    }
+    else return {
         "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
         "name": "testuser",
         "roomId": 28,
@@ -24,12 +34,22 @@ function Room(){
         "description": "",
         "players": []
     })
-    
+
+    const [moved, setMoved] = useState(false)
+
+    const moveTo = (event) => {
+        event.preventDefault();
+        setMoved(true)
+        console.log("Moving to ", event.target.innerHTML)
+    }
+
     useEffect(()=>{
-            const currentRoom = getRoomDetails();
-            setRoom(currentRoom)
-        }
-    )
+        const currentRoom = getRoomDetails();
+        setRoom(currentRoom)
+    }, [moved]
+)
+    
+
 
 
     return(
@@ -50,10 +70,10 @@ function Room(){
             }
         </CardContent>
         <CardFooter>
-            <Direction><h4>N</h4></Direction>
-            <Direction><h4>S</h4></Direction>
-            <Direction><h4>E</h4></Direction>
-            <Direction><h4>W</h4></Direction>    
+            <Direction><h4 onClick={moveTo}>N</h4></Direction>
+            <Direction><h4 onClick={moveTo}>S</h4></Direction>
+            <Direction><h4 onClick={moveTo}>E</h4></Direction>
+            <Direction><h4 onClick={moveTo}>W</h4></Direction>    
             <Compass>
                 <img src={compass} />
             </Compass>                
@@ -90,10 +110,15 @@ const CardFooter = styled.div`
 
 const Direction = styled.div`
     width:15%;
-    background:white;
+    background:none;
     text-align:center;
     h4{
         color:#ff7577;
+    }
+    :hover{
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+        transform: translateY(-7px);
     }
 `;
 
