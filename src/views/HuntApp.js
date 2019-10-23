@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import compass from '../assets/compass-2.png'
+import Map from '../components/Map';
 
 
 const HuntApp = () =>{
@@ -8,9 +9,7 @@ const HuntApp = () =>{
         <>
         <h2>Start the hunt</h2>
         <div className="row">
-            <RoomsMap>
-                {/* <img src="https://source.unsplash.com/_qXjdWm8YEo/1600x900" /> */}
-            </RoomsMap>
+            <Map />
             <SideBar>
                 <Card>
                     <CardTitle>
