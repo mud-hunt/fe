@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import compass from '../assets/compass-2.png'
+import { getRoomData } from '../authHandlers/authHandlers'
 
 
 const getRoomDetails = (next=false)=>{
@@ -44,7 +45,7 @@ function Room(){
     }
 
     useEffect(()=>{
-        const currentRoom = getRoomDetails();
+        const currentRoom = getRoomData();
         setRoom(currentRoom)
     }, [moved]
 )

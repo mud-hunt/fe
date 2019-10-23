@@ -10,7 +10,7 @@ const setHeaders = () => {
   return {
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `${token}`,
+      "Authorization": `Bearer a77330ab56b65602d5bd55074813184c1490947a`,//`${token}`,
       "Referer": "https://mud-hunt-be.herokuapp.com"
     }
   };
@@ -59,3 +59,18 @@ export const loginHandler = ({ username, password }) => {
       console.log(error);
     });
 };
+
+export const getRoomData = () => {
+  axios.defaults.withCredentials = true
+  axios.get('https://mud-hunt-be.herokuapp.com/api/adv/init/',
+  setHeaders())
+      .then( (response) => {
+          // handle success
+          console.log('succsess');
+          return response;
+      })
+      .catch((error) => {
+          // handle error
+          console.log('The error is', error);
+      })
+}
