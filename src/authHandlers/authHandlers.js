@@ -1,5 +1,21 @@
 import axios from "axios";
 
+export const getToken = () => {
+  return window.localStorage.getItem("token");
+};
+
+const setHeaders = () => {
+  const token = getToken();
+
+  return {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `${token}`,
+      "Referer": "https://mud-hunt-be.herokuapp.com"
+    }
+  };
+};
+
 export const registrationHandler = ({
   username,
   email,
@@ -27,13 +43,11 @@ export const registrationHandler = ({
 
 export const loginHandler = ({ username, password }) => {
   return axios
-    .post(
-      "https://mud-hunt-be.herokuapp.com/api/login/",
-      {
-        username,
-        password
-      },
-    )
+    .post("https://mud-hunt-be.herokuapp.com/api/login/", {
+      username,
+      password
+    },
+    setHeaders())
     .then(response => {
       console.log(response);
       const token = response.data.key;
