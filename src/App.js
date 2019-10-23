@@ -14,9 +14,9 @@ function App() {
         <AppContainer>
           <MainDialog>
             <Route exact path="/" render={props => <Welcome {...props} />} />
-            <Route exact path="/auth" render={props => <Auth {...props} />} />
+            <Route path="/auth" render={props => <Auth {...props} />} />
           </MainDialog>
-          <HuntApp />
+          <Route path="/app" render={props => <HuntApp {...props} />} />
         </AppContainer>
       </Switch>
     </Router>
