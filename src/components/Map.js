@@ -106,7 +106,9 @@ function Map() {
     const ctx = canvasRef.current.getContext("2d");
     const mapArray = generateMapArray();
     if (!mapArray) return;
-
+    
+    ctx.fillStyle = "#FFFFFF";
+    ctx.strokeStyle = "#FFFFFF";
     for (let x = 0; x < mapArray.length; x++) {
       for (let y = 0; y < mapArray[0].length; y++) {
         if (mapArray[x][y]) {
