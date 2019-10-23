@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import Welcome from "./components/Welcome";
 import Auth from "./components/Auth";
+import HuntApp from "./views/HuntApp";
 
 function App() {
+  const auth = true;
+
   return (
     <Router>
       <Switch>
@@ -13,6 +16,7 @@ function App() {
             <Route exact path="/" render={props => <Welcome {...props} />} />
             <Route exact path="/auth" render={props => <Auth {...props} />} />
           </MainDialog>
+          <HuntApp />
         </AppContainer>
       </Switch>
     </Router>
