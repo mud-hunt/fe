@@ -3,96 +3,79 @@ import styled from "styled-components";
 
 function Map() {
   const [mapData, setMapData] = useState(null);
+  let rooms = null;
   const canvasRef = React.useRef(null);
 
+  let playersRoom = null;
   const canvasWidth = 500;
   const canvasHeight = 500;
+  const distanceBetweenRooms = 10;
   const roomSize = 20;
 
   const getMapData = () => {
     setMapData([
       {
-        id: 0,
-        n_to: 1,
-        s_to: null,
-        e_to: null,
-        w_to: null
+        id: 1,
+        n_to: 2,
+        s_to: 0,
+        e_to: 0,
+        w_to: 0
       },
       {
-        id: 1,
-        n_to: null,
+        id: 2,
+        n_to: 0,
+        s_to: 1,
+        e_to: 0,
+        w_to: 3
+      },
+      {
+        id: 3,
+        n_to: 0,
         s_to: 0,
-        e_to: null,
-        w_to: null
+        e_to: 2,
+        w_to: 0
       }
     ]);
   };
 
-  const generateMapArray = () => {
+  const generateRooms = () => {
     if (!mapData) return null;
-    const dataWithMarks = mapData.map(data => {
-      return { ...data, marked: false };
-    });
-
-    const mapArray = [];
-    for (let i = 0; i < 20; i++) {
-      mapArray.push([]);
-      for (let j = 0; j < 20; j++) {
-        mapArray[i].push(null);
-      }
+    const rooms = {};
+    for (let room of mapData) {
+      rooms[room.id] = room;
     }
-    const firstRoom = dataWithMarks.find(data => data.id === 0);
-    mapArray[10][10] = firstRoom;
 
-    const queue = [];
-    queue.push(firstRoom);
-    firstRoom.marked = true;
-    firstRoom.posX = 10;
-    firstRoom.posY = 10;
-    while (queue.length > 0) {
-      const w = queue.shift();
-      if (w.n_to !== null) {
-        const x = dataWithMarks.find(data => data.id === w.n_to);
-        if (!x.marked) {
-          mapArray[w.posX][w.posY - 1] = x;
-          x.posX = w.posX;
-          x.posY = w.posY - 1;
-          x.marked = true;
-          queue.push(x);
-        }
+    const addedRooms = {};
+    let maxX = 0;
+    let maxY = 0;
+    let minX = -9999;
+    let minY = -9999;
+
+    const recurRooms = (room, posX = 0, posY = 0) => {
+      if (posX > maxX) maxX = posX;
+      if (posX < minX) minX = posX;
+      if (posY > maxY) maxY = posY;
+      if (posY < minY) minY = posY;
+
+      room.posX = posX;
+      room.posY = posY;
+      addedRooms[room.id] = true;
+      if (room.n_to !== 0 && !addedRooms[room.n_to]) {
+        recurRooms(rooms[room.n_to], posX, posY - 1);
       }
-      if (w.s_to !== null) {
-        const x = dataWithMarks.find(data => data.id === w.s_to);
-        if (!x.marked) {
-          mapArray[w.posX][w.posY + 1] = x;
-          x.posX = w.posX;
-          x.posY = w.posY + 1;
-          x.marked = true;
-          queue.push(x);
-        }
+      if (room.s_to !== 0 && !addedRooms[room.s_to]) {
+        recurRooms(rooms[room.s_to], posX, posY + 1);
       }
-      if (w.w_to !== null) {
-        const x = dataWithMarks.find(data => data.id === w.w_to);
-        if (!x.marked) {
-          mapArray[w.posX - 1][w.posY] = x;
-          x.posX = w.posX - 1;
-          x.posY = w.posY;
-          x.marked = true;
-          queue.push(x);
-        }
+      if (room.w_to !== 0 && !addedRooms[room.w_to]) {
+        recurRooms(rooms[room.w_to], posX - 1, posY);
       }
-      if (w.e_to !== null) {
-        const x = dataWithMarks.find(data => data.id === w.e_to);
-        if (!x.marked) {
-          mapArray[w.posX + 1][w.posY] = x;
-          x.posX = w.posX + 1;
-          x.posY = w.posY;
-          x.marked = true;
-          queue.push(x);
-        }
+      if (room.e_to !== 0 && !addedRooms[room.e_to]) {
+        recurRooms(rooms[room.e_to], posX + 1, posY);
       }
-    }
-    return mapArray;
+    };
+
+    recurRooms(rooms[Object.keys(rooms)[0]]);
+    return rooms;
   };
 
   const drawMap = () => {
@@ -103,46 +86,60 @@ function Map() {
       ctx.lineTo(toX, toY);
       ctx.stroke();
     };
-    const ctx = canvasRef.current.getContext("2d");
-    const mapArray = generateMapArray();
-    if (!mapArray) return;
-    
-    ctx.fillStyle = "#FFFFFF";
-    ctx.strokeStyle = "#FFFFFF";
-    for (let x = 0; x < mapArray.length; x++) {
-      for (let y = 0; y < mapArray[0].length; y++) {
-        if (mapArray[x][y]) {
-          const roomPosX = (canvasWidth / mapArray.length) * x;
-          const roomPosY = (canvasHeight / mapArray[0].length) * y;
-          ctx.fillRect(
-            roomPosX - roomSize / 2,
-            roomPosY - roomSize / 2,
-            roomSize,
-            roomSize
-          );
 
-          if (mapArray[x][y].n_to != null) {
-            const otherRoomPosX = roomPosX;
-            const otherRoomPosY = roomPosY - roomSize;
-            drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
-          }
-          if (mapArray[x][y].s_to != null) {
-            const otherRoomPosX = roomPosX;
-            const otherRoomPosY = roomPosY + roomSize;
-            drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
-          }
-          if (mapArray[x][y].w_to != null) {
-            const otherRoomPosX = roomPosX - roomSize;
-            const otherRoomPosY = roomPosY;
-            drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
-          }
-          if (mapArray[x][y].e_to != null) {
-            const otherRoomPosX = roomPosX + roomSize;
-            const otherRoomPosY = roomPosY;
-            drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
-          }
-        }
+    const drawRoom = room => {
+      ctx.fillStyle = "#FFFFFF";
+      ctx.strokeStyle = "#FFFFFF";
+      const roomPosX =
+        canvasWidth / 2 + (room.posX - playersRoom.posX) * (distanceBetweenRooms + roomSize);
+      const roomPosY =
+        canvasHeight / 2 +
+        (room.posY - playersRoom.posY) * (distanceBetweenRooms + roomSize);
+
+      ctx.fillRect(
+        roomPosX - roomSize / 2,
+        roomPosY - roomSize / 2,
+        roomSize,
+        roomSize
+      );
+
+      if (room.n_to) {
+        const otherRoomPosX = roomPosX;
+        const otherRoomPosY = roomPosY - roomSize - distanceBetweenRooms;
+        drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY + roomSize / 2);
       }
+      if (room.s_to) {
+        const otherRoomPosX = roomPosX;
+        const otherRoomPosY = roomPosY + roomSize + distanceBetweenRooms;
+        drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY - roomSize / 2);
+      }
+      if (room.w_to) {
+        const otherRoomPosX = roomPosX - roomSize - distanceBetweenRooms;
+        const otherRoomPosY = roomPosY;
+        drawLine(roomPosX, roomPosY, otherRoomPosX + roomSize / 2, otherRoomPosY);
+      }
+      if (room.e_to) {
+        const otherRoomPosX = roomPosX + roomSize + distanceBetweenRooms;
+        const otherRoomPosY = roomPosY;
+        drawLine(roomPosX, roomPosY, otherRoomPosX - roomSize / 2, otherRoomPosY);
+      }
+
+      if (room === playersRoom) {
+        ctx.fillStyle = "#ff7577";
+
+        const offset = roomSize / 3;
+        ctx.fillRect(
+          roomPosX - roomSize / 2 + offset,
+          roomPosY - roomSize / 2 + offset,
+          roomSize - offset * 2,
+          roomSize - offset * 2
+        );
+      }
+    };
+    if (!rooms) return;
+    const ctx = canvasRef.current.getContext("2d");
+    for (let key in rooms) {
+      drawRoom(rooms[key]);
     }
   };
 
@@ -151,6 +148,8 @@ function Map() {
   }, []);
 
   useEffect(() => {
+    rooms = generateRooms();
+    if (rooms) playersRoom = rooms[Object.keys(rooms)[0]];
     drawMap();
   }, [mapData]);
 
