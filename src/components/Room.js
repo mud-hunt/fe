@@ -48,9 +48,6 @@ function Room(){
         setRoom(currentRoom)
     }, [moved]
 )
-    
-
-
 
     return(
         <>
