@@ -1,18 +1,23 @@
 import React, { useState } from "react";
+import {
+  registrationHandler,
+  loginHandler
+} from "../authHandlers/authHandlers";
 
 const Auth = props => {
   const [action, setAction] = useState("register");
 
-  const [details, updateInputChangeState] = useState({
+  const [state, updateState] = useState({
     username: "",
+    email: "",
     password1: "",
     password2: ""
   });
 
   const handleChange = event => {
     event.preventDefault();
-    updateInputChangeState({
-      ...details,
+    updateState({
+      ...state,
       [event.target.name]: event.target.value
     });
   };
@@ -26,7 +31,23 @@ const Auth = props => {
 
   const onSubmit = event => {
     event.preventDefault();
-    console.log("submitting");
+
+    const registrationCredentials = {
+      username: state.username,
+      email: state.email,
+      password1: state.password1,
+      password2: state.password2
+    };
+
+    const loginCredentials = {
+      username: state.username,
+      password: state.password1
+    };
+    if (action === "register") {
+      registrationHandler(registrationCredentials);
+    } else if (action === "login") {
+      loginHandler(loginCredentials);
+    }
   };
 
   return (
@@ -50,34 +71,50 @@ const Auth = props => {
             placeholder="Your user name"
             name="username"
             className="half"
-            value={details.username}
+            value={state.username}
             onChange={handleChange}
           />
         </div>
+        <div className="row center">
+          {action === "register" && (
+            <input
+              type="email"
+              placeholder="Your email address"
+              name="email"
+              className="half"
+              value={state.email}
+              onChange={handleChange}
+            />
+          )}
+        </div>
+        <div className="row center"></div>
         <div className="row center">
           <input
             type="password"
             placeholder="Password"
             name="password1"
             className="half"
-            value={details.password1}
+            value={state.password1}
             onChange={handleChange}
           />
         </div>
         <div className="row center">
-          {action == "register" && (
+          {action === "register" && (
             <input
               type="password"
               placeholder="Confirm password"
               name="password2"
               className="half"
-              value={details.password2}
+              value={state.password2}
               onChange={handleChange}
             />
           )}
         </div>
         <div className="row center">
-          <button className="big">SUBMIT</button>
+          {action === "register" && <button className="big">SUBMIT</button>}
+        </div>
+        <div className="row center">
+          {action === "login" && <button className="big">LOGIN</button>}
         </div>
       </form>
     </>
