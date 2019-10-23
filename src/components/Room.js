@@ -1,20 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import compass from '../assets/compass-2.png'
 
+
+const getRoomDetails = ()=>{
+    // should call axios --> init end-point
+    return {
+        "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
+        "name": "testuser",
+        "roomId": 28,
+        "title": "Et et consequat eu elit in laboris dolor mollit.",
+        "description": "Quis incididunt consectetur nisi laborum mollit voluptate.",
+        "players": ['player1', 'player2', 'player3']
+    }
+}
+
 function Room(){
+
+    const [room, setRoom] = useState({
+        "name": "",
+        "roomId": null,
+        "title": "",
+        "description": "",
+        "players": []
+    })
+    
+    useEffect(()=>{
+            const currentRoom = getRoomDetails();
+            setRoom(currentRoom)
+        }
+    )
+
+
     return(
         <>
         <CardTitle>
-        <h3>Room 12</h3>
+        <h3>Room {room.roomId}</h3>
         </CardTitle>
         <CardContent>
-            <h4>Player Name</h4>
-            <p>Instriction to player</p>
+            <h4>Hi {room.name}</h4>
+            <p>{room.title}</p>
             <h4>Description</h4>
-            <p>Room description</p>
-            <h4>Current players</h4>
-            <p>Info and data </p>
+            <p>{room.description}</p>
+            <h4>They are currently playing</h4>
+            {
+                room.players.map((player, index) => (
+                    <li key={index}>{player}</li>
+                ))
+            }
         </CardContent>
         <CardFooter>
             <Direction><h4>N</h4></Direction>
