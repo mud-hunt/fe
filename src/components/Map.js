@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 function Map() {
   const [mapData, setMapData] = useState(null);
@@ -15,23 +16,23 @@ function Map() {
         n_to: 1,
         s_to: null,
         e_to: null,
-        w_to: null,
+        w_to: null
       },
       {
         id: 1,
         n_to: null,
         s_to: 0,
         e_to: null,
-        w_to: null,
-      },
+        w_to: null
+      }
     ]);
-  }
+  };
 
   const generateMapArray = () => {
     if (!mapData) return null;
     const dataWithMarks = mapData.map(data => {
-      return {...data, marked: false};
-    })
+      return { ...data, marked: false };
+    });
 
     const mapArray = [];
     for (let i = 0; i < 20; i++) {
@@ -92,7 +93,7 @@ function Map() {
       }
     }
     return mapArray;
-  }
+  };
 
   const drawMap = () => {
     const drawLine = (fromX, fromY, toX, toY) => {
@@ -102,38 +103,46 @@ function Map() {
       ctx.lineTo(toX, toY);
       ctx.stroke();
     };
-    const ctx = canvasRef.current.getContext('2d');
+    const ctx = canvasRef.current.getContext("2d");
     const mapArray = generateMapArray();
     if (!mapArray) return;
 
     for (let x = 0; x < mapArray.length; x++) {
       for (let y = 0; y < mapArray[0].length; y++) {
         if (mapArray[x][y]) {
-          const roomPosX = canvasWidth / mapArray.length * x;
-          const roomPosY = canvasHeight / mapArray[0].length * y;
-          ctx.fillRect(roomPosX - roomSize / 2, roomPosY  - roomSize / 2, roomSize, roomSize);
+          const roomPosX = (canvasWidth / mapArray.length) * x;
+          const roomPosY = (canvasHeight / mapArray[0].length) * y;
+          ctx.fillRect(
+            roomPosX - roomSize / 2,
+            roomPosY - roomSize / 2,
+            roomSize,
+            roomSize
+          );
 
           if (mapArray[x][y].n_to != null) {
             const otherRoomPosX = roomPosX;
             const otherRoomPosY = roomPosY - roomSize;
             drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
-          } if (mapArray[x][y].s_to != null) {
+          }
+          if (mapArray[x][y].s_to != null) {
             const otherRoomPosX = roomPosX;
             const otherRoomPosY = roomPosY + roomSize;
             drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
-          } if (mapArray[x][y].w_to != null) {
+          }
+          if (mapArray[x][y].w_to != null) {
             const otherRoomPosX = roomPosX - roomSize;
             const otherRoomPosY = roomPosY;
             drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
-          } if (mapArray[x][y].e_to != null) {
+          }
+          if (mapArray[x][y].e_to != null) {
             const otherRoomPosX = roomPosX + roomSize;
             const otherRoomPosY = roomPosY;
             drawLine(roomPosX, roomPosY, otherRoomPosX, otherRoomPosY);
           }
         }
-      }  
+      }
     }
-  }
+  };
 
   useEffect(() => {
     getMapData();
@@ -143,7 +152,13 @@ function Map() {
     drawMap();
   }, [mapData]);
 
-  return <canvas ref={canvasRef} style={{border: '1px solid black'}} width={canvasWidth} height={canvasHeight} />;
+  return (
+    <StyledCanvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />
+  );
 }
+
+const StyledCanvas = styled.canvas`
+  border: 1px solid white;
+`;
 
 export default Map;
