@@ -24,25 +24,22 @@ function App() {
 export default App;
 
 const AppContainer = styled.div`
-  height: 100%;
-`;
-
-const MainDialog = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 60%;
-  height: 100vh;
-  max-width: 900px;
-  min-width: 400px;
+  width: 100%;
+  min-height: 100vh;
   margin: 0 auto;
   h1 {
     color: white;
   }
   @media (max-width: 500px) {
-    padding-top: 10vw;
+    padding-top: 10rem;
     min-width: 100%;
   }
 `;
 
+const MainDialog = styled.div`
+`;
