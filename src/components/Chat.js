@@ -7,9 +7,11 @@ const Chat = (props) => {
   const [messageChannel, setMessageChannel] = useState();
   const [messages, setMessages] = useState([]);
   const messageBox = useRef();
+  const chatBox = useRef();
 
   const onMessage = message => {
-    setMessages([...messages, message]);
+    setMessages(state => state.concat([message]));
+    chatBox.current.scrollTop = chatBox.current.scrollHeight;
   }
 
   useEffect(() => {
@@ -27,7 +29,7 @@ const Chat = (props) => {
 
   const onSend = e => {
     e.preventDefault();
-    console.log(messageBox.current.value);
+    sendMessage(messageBox.current.value);
   }
 
   return (
@@ -35,11 +37,11 @@ const Chat = (props) => {
       <ChatTitle>
         <h3>Chat</h3>
       </ChatTitle>
-      <ChatContent>
+      <ChatContent ref={chatBox}>
         {messages.map(message => {
           return (
             <Message>
-              <span>{message.username}</span>
+              <span>{message.username}: </span>
               {message.message}
             </Message>
           );
@@ -78,7 +80,7 @@ const ChatContent = styled.div`
 
 const Message = styled.h4`
   > span {
-    font-weight: bold;
+    font-weight: 400;
   }
 `;
 
