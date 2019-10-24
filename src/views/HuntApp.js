@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import Pusher from 'pusher-js';
 import Map from '../components/Map';
 import Room from '../components/Room';
 import { getRoomData, moveToRoom } from '../authHandlers/authHandlers';
@@ -10,7 +11,7 @@ import { Redirect } from "react-router-dom"
 const HuntApp = () =>{
     const [room, setRoom] = useState(null)
     const [error, setError] = useState(false)
-
+    let pusher;
     const loadRoom = async () =>{
         const currentRoom = await getRoomData();
         if (currentRoom !== 'error'){
@@ -27,6 +28,13 @@ const HuntApp = () =>{
         }
     }, [room]
     )
+
+    useEffect(() => {
+      pusher = new Pusher('ad5fb0ce29a28bd2cd61', {
+        cluster: 'eu',
+        encrypted: false
+      });
+    }, [])
 
     const move = async (direction) =>{
         const newRoom = await moveToRoom(direction);
