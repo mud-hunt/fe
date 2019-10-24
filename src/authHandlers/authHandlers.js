@@ -7,7 +7,7 @@ const setHeaders = () => {
     return {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `${token}`,       
+        Authorization: `${token}`
       }
     };
   } else {
@@ -20,7 +20,6 @@ const setHeaders = () => {
 };
 
 export const registrationHandler = ({ username, password1, password2 }) => {
-  console.log(password1, password2, username)
   return axios
     .post("https://mud-hunt-be.herokuapp.com/api/registration/", {
       username,
@@ -30,16 +29,25 @@ export const registrationHandler = ({ username, password1, password2 }) => {
     .then(response => {
       const token = response.data.key;
       localStorage.setItem("token", token);
+      console.log("hellothen")
       return response;
     })
     .catch(error => {
-      console.log(error);
-      // throw error;
+      /* console.log("hellocatch")
+      let errorString = "";
+      error.forEach(element => {
+        if (Array.isArray(element)) {
+          for (let i = 0; i < element.length; i++) {
+            errorString += ", ".concat(element[i]);
+          }
+        }
+      });
+      throw new Error(errorString); */
+      throw error;
     });
 };
 
 export const loginHandler = ({ username, password }) => {
-  console.log(password, username)
   return axios
     .post(
       "https://mud-hunt-be.herokuapp.com/api/login/",
@@ -57,7 +65,6 @@ export const loginHandler = ({ username, password }) => {
       }
     })
     .catch(error => {
-      console.log(error);
       throw error;
     });
 };

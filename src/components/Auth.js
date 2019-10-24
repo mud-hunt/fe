@@ -4,8 +4,9 @@ import {
   loginHandler
 } from "../authHandlers/authHandlers";
 import { toast } from "react-toastify";
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { getToken } from "../helpers/getToken";
 import styled from "styled-components";
 
 const Auth = props => {
@@ -15,7 +16,8 @@ const Auth = props => {
     username: "",
     email: "",
     password1: "",
-    password2: ""
+    password2: "",
+    hasToken: getToken()
   });
 
   const handleChange = event => {
@@ -48,26 +50,33 @@ const Auth = props => {
       password: state.password1
     };
     if (action === "register") {
-      const response = await registrationHandler(registrationCredentials);
-      if (response && response.statusText === "OK") {
-        toast.success("Registration successful");
+      try {
+        const response = await registrationHandler(registrationCredentials);
+        if (response && response.status === 201) {
+          toast.success("Registration successful");
+          updateState({ hasToken: true });
+        } else {
+          toast.error("Registration failed");
+        }
+      } catch (err) {
       }
-      toast.error("Registration failed");
     } else if (action === "login") {
-      const response = await loginHandler(loginCredentials);
-      if (response && response.status === 200) {
-        toast.success("Login successful");
-        props.history.push("/hunt");
+      try {
+        const response = await loginHandler(loginCredentials);
+        if (response && response.status === 200) {
+          toast.success("Login successful");
+          updateState({ hasToken: true });
+        } else {
+          toast.error("Invalid credentials");
+        }
+      } catch (err) {
       }
-      props.history.push("/");
-      toast.error("Invalid credentials");
     }
   };
 
-  if(localStorage.getItem("token")){
-    return <Redirect to="/hunt" />
+  if (state.hasToken) {
+    return <Redirect to="/hunt" />;
   }
-
   return (
     <>
       <div className="row center">
