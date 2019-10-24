@@ -30,8 +30,10 @@ const AppContainer = styled.div`
 const MainDialog = styled.div`
   display: flex;
   flex-direction: column;
-  align-content: center;
+  align-items: center;
+  justify-content: center;
   width: 60%;
+  height: 100vh;
   max-width: 900px;
   min-width: 400px;
   margin: 0 auto;
