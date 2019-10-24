@@ -65,7 +65,7 @@ const Auth = props => {
   };
 
   if(localStorage.getItem("token")){
-    return <Redirect to="/" />
+    return <Redirect to="/hunt" />
   }
 
   return (

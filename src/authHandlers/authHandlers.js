@@ -1,13 +1,5 @@
 import axios from "axios";
-
-export const getToken = () => {
-  try{
-    return window.localStorage.getItem("token");
-  }
-  catch(err){
-    return undefined
-  }
-};
+import { getToken } from "../helpers/getToken";
 
 const setHeaders = () => {
   const token = getToken();

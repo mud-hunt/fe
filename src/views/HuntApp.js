@@ -2,8 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import compass from "../assets/compass-2.png";
 import Map from "../components/Map";
+import { getToken } from "../helpers/getToken";
+import { Redirect } from "react-router-dom"
 
 const HuntApp = () => {
+  if(!getToken()){
+    return <Redirect to="/auth" />
+  }
   return (
     <>
       <h2>Start the hunt</h2>
