@@ -4,12 +4,22 @@ import styled from 'styled-components';
 const Chat = (props) => {
   const { pusher } = props;
   const [messageChannel, setMessageChannel] = useState();
-
   useEffect(() => {
     if (pusher) {
       setMessageChannel(pusher.subscribe('message-channel'));
     }
   }, [pusher]);
+
+  return (
+    <>
+      <ChatTitle>
+        <h3>Chat</h3>
+      </ChatTitle>
+      <ChatContent>
+
+      </ChatContent>
+    </>
+  )
 }
 
 const ChatTitle = styled.div`
