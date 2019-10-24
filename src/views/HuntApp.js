@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Pusher from 'pusher-js';
 import Map from '../components/Map';
 import Room from '../components/Room';
+import Chat from '../components/Chat';
 import { getRoomData, moveToRoom } from '../authHandlers/authHandlers';
 import compass from "../assets/compass-2.png";
 import { getToken } from "../helpers/getToken";
@@ -11,7 +12,8 @@ import { Redirect } from "react-router-dom"
 const HuntApp = () =>{
     const [room, setRoom] = useState(null)
     const [error, setError] = useState(false)
-    let pusher;
+    const [pusher, setPusher] = useState();
+
     const loadRoom = async () =>{
         const currentRoom = await getRoomData();
         if (currentRoom !== 'error'){
@@ -30,11 +32,13 @@ const HuntApp = () =>{
     )
 
     useEffect(() => {
-      pusher = new Pusher('ad5fb0ce29a28bd2cd61', {
-        cluster: 'eu',
-        encrypted: false
-      });
-    }, [])
+      setPusher(
+        new Pusher("ad5fb0ce29a28bd2cd61", {
+          cluster: "eu",
+          encrypted: false
+        })
+      );
+    }, []);
 
     const move = async (direction) =>{
         const newRoom = await moveToRoom(direction);
@@ -68,7 +72,8 @@ const HuntApp = () =>{
                         <Room room={room} move={move}/>
                     </Card>
                 </SideBar>
-            </div>    
+            </div>
+            <Chat pusher={pusher} />
             </>
             )
         }
