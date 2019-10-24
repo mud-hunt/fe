@@ -16,7 +16,8 @@ const Auth = props => {
     username: "",
     password1: "",
     password2: "",
-    hasToken: getToken()
+    hasToken: getToken(),
+    error: ""
   });
 
   const handleChange = event => {
@@ -57,6 +58,7 @@ const Auth = props => {
           toast.error("Registration failed");
         }
       } catch (err) {
+        updateState({error: err.message})
       }
     } else if (action === "login") {
       try {
@@ -68,6 +70,7 @@ const Auth = props => {
           toast.error("Invalid credentials");
         }
       } catch (err) {
+        updateState({error: err.message})
       }
     }
   };
@@ -124,6 +127,7 @@ const Auth = props => {
             />
           )}
         </div>
+        {state.error && <div>{state.error}</div>}
         <div className="row center">
           {action === "register" && <button className="big">SUBMIT</button>}
         </div>

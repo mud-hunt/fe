@@ -29,21 +29,20 @@ export const registrationHandler = ({ username, password1, password2 }) => {
     .then(response => {
       const token = response.data.key;
       localStorage.setItem("token", token);
-      console.log("hellothen")
       return response;
     })
     .catch(error => {
-      /* console.log("hellocatch")
       let errorString = "";
+      error = Object.values(error.response.data);
+      debugger;
       error.forEach(element => {
         if (Array.isArray(element)) {
           for (let i = 0; i < element.length; i++) {
-            errorString += ", ".concat(element[i]);
+            errorString += "\n".concat(element[i]);
           }
         }
       });
-      throw new Error(errorString); */
-      throw error;
+      throw new Error(errorString);
     });
 };
 
@@ -65,6 +64,16 @@ export const loginHandler = ({ username, password }) => {
       }
     })
     .catch(error => {
-      throw error;
+      let errorString = "";
+      error = Object.values(error.response.data);
+      debugger;
+      error.forEach(element => {
+        if (Array.isArray(element)) {
+          for (let i = 0; i < element.length; i++) {
+            errorString += "\n".concat(element[i]);
+          }
+        }
+      });
+      throw new Error(errorString);
     });
 };
