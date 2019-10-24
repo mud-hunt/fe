@@ -6,8 +6,6 @@ import Auth from "./components/Auth";
 import HuntApp from "./views/HuntApp";
 
 function App() {
-  const auth = true;
-
   return (
     <Router>
       <Switch>
