@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import Map from '../components/Map';
 import Room from '../components/Room';
 import { getRoomData, moveToRoom } from '../authHandlers/authHandlers';
-import { async } from 'q';
-
+import compass from "../assets/compass-2.png";
+import { getToken } from "../helpers/getToken";
+import { Redirect } from "react-router-dom"
 
 const HuntApp = () =>{
     const [room, setRoom] = useState(null)
@@ -37,6 +38,11 @@ const HuntApp = () =>{
         }
     }
 
+    if(!getToken()){
+        return <Redirect to="/auth" />
+    }    
+
+
     return(
         <>
         <h2>Start the hunt</h2>
@@ -66,15 +72,57 @@ export default HuntApp
 
 
 const SideBar = styled.div`
-    display:flex;
-    flex-direction:column;
-    margin-left:10px;
-    width:25%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 25%;
 `;
 
 const Card = styled.div`
-    display:flex;
-    flex-direction:column;
-    border:1px solid white;
-    margin:10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid white;
+  margin: 10px;
 `;
+
+const CardTitle = styled.div`
+  background:white h3 {
+    color: #ff7577;
+  }
+`;
+
+const CardContent = styled.div`
+  color: white;
+  padding-left: 5px;
+  h4 {
+    text-align: left;
+  }
+`;
+
+const CardFooter = styled.div`
+  display: flex;
+  justify-content: space-around;
+  background:white h3 {
+    color: #ff7577;
+  }
+`;
+
+const Direction = styled.div`
+  width: 15%;
+  background: white;
+  text-align: center;
+  h4 {
+    color: #ff7577;
+  }
+`;
+
+const Compass = styled.div`
+  width: 20%;
+  text-align: right;
+  margin: 10px;
+  img {
+    opacity: 0.8;
+  }
+`;
+
+
