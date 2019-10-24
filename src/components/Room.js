@@ -1,30 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import compass from '../assets/compass-2.png'
-import { getRoomData } from '../authHandlers/authHandlers'
-
-
-const getRoomDetails = (next=false)=>{
-    // should call axios --> init end-point
-    if (next) {
-        return {
-            "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
-            "name": "testuser",
-            "roomId": 29,
-            "title": "Room 29 title",
-            "description": "Room 29 description",
-            "players": ['player1', 'player2', 'player3']
-        }
-    }
-    else return {
-        "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
-        "name": "testuser",
-        "roomId": 28,
-        "title": "Et et consequat eu elit in laboris dolor mollit.",
-        "description": "Quis incididunt consectetur nisi laborum mollit voluptate.",
-        "players": ['player1', 'player2', 'player3']
-    }
-}
+import { getRoomData } from '../authHandlers/authHandlers';
 
 function Room(){
 
@@ -45,39 +22,49 @@ function Room(){
     }
 
     useEffect(()=>{
-        const currentRoom = getRoomData();
-        setRoom(currentRoom)
+        const loadRoom = async () =>{
+            const currentRoom = await getRoomData();
+            setRoom(currentRoom)    
+        }
+        loadRoom();
     }, [moved]
 )
-
-    return(
-        <>
-        <CardTitle>
-        <h3>Room {room.roomId}</h3>
-        </CardTitle>
-        <CardContent>
-            <h4>Hi {room.name}</h4>
-            <p>{room.title}</p>
-            <h4>Description</h4>
-            <p>{room.description}</p>
-            <h4>They are currently playing</h4>
-            {
-                room.players.map((player, index) => (
-                    <li key={index}>{player}</li>
-                ))
-            }
-        </CardContent>
-        <CardFooter>
-            <Direction><h4 onClick={moveTo}>N</h4></Direction>
-            <Direction><h4 onClick={moveTo}>S</h4></Direction>
-            <Direction><h4 onClick={moveTo}>E</h4></Direction>
-            <Direction><h4 onClick={moveTo}>W</h4></Direction>    
-            <Compass>
-                <img src={compass} />
-            </Compass>                
-        </CardFooter>
-        </>
-    );
+    if(!room){
+        return(
+            <h4>Loading</h4>
+        )
+    }
+    else {
+        console.dir(room);
+        return(
+            <>
+            <CardTitle>
+            <h3>Room {room.roomId}</h3>
+            </CardTitle>
+            <CardContent>
+                <h4>Hi {room.name}</h4>
+                <p>{room.title}</p>
+                <h4>Description</h4>
+                <p>{room.description}</p>
+                <h4>They are currently playing</h4>
+                {
+                    room.players.map((player, index) => (
+                        <li key={index}>{player}</li>
+                    ))
+                }
+            </CardContent>
+            <CardFooter>
+                <Direction><h4 onClick={moveTo}>N</h4></Direction>
+                <Direction><h4 onClick={moveTo}>S</h4></Direction>
+                <Direction><h4 onClick={moveTo}>E</h4></Direction>
+                <Direction><h4 onClick={moveTo}>W</h4></Direction>    
+                <Compass>
+                    <img src={compass} />
+                </Compass>                
+            </CardFooter>
+            </>
+        );    
+    }
 }
 
 export default Room
