@@ -29,19 +29,15 @@ function Room(){
         loadRoom();
     }, [moved]
 )
-    if(!room){
-        return(
-            <h4>Loading</h4>
-        )
-    }
-    else {
-        console.dir(room);
-        return(
-            <>
-            <CardTitle>
-            <h3>Room {room.roomId}</h3>
-            </CardTitle>
-            <CardContent>
+    return(
+        <>
+        <CardTitle>
+        <h3>Room {room.roomId}</h3>
+        </CardTitle>
+        <CardContent>
+        { room
+            ? (
+                <>
                 <h4>Hi {room.name}</h4>
                 <p>{room.title}</p>
                 <h4>Description</h4>
@@ -51,20 +47,23 @@ function Room(){
                     room.players.map((player, index) => (
                         <li key={index}>{player}</li>
                     ))
-                }
-            </CardContent>
-            <CardFooter>
-                <Direction><h4 onClick={moveTo}>N</h4></Direction>
-                <Direction><h4 onClick={moveTo}>S</h4></Direction>
-                <Direction><h4 onClick={moveTo}>E</h4></Direction>
-                <Direction><h4 onClick={moveTo}>W</h4></Direction>    
-                <Compass>
-                    <img src={compass} />
-                </Compass>                
-            </CardFooter>
-            </>
-        );    
-    }
+                } 
+                </>   
+            )
+            : <h4>Loading</h4>
+        }
+        </CardContent>
+        <CardFooter>
+            <Direction><h4 onClick={moveTo}>N</h4></Direction>
+            <Direction><h4 onClick={moveTo}>S</h4></Direction>
+            <Direction><h4 onClick={moveTo}>E</h4></Direction>
+            <Direction><h4 onClick={moveTo}>W</h4></Direction>    
+            <Compass>
+                <img src={compass} />
+            </Compass>                
+        </CardFooter>
+        </>
+    );    
 }
 
 export default Room
