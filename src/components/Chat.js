@@ -86,7 +86,25 @@ const ChatContent = styled.div`
   color: white;
   height: 20rem;
   overflow-y: scroll;
-  padding-left: 5px;
+  padding: 0 2rem;
+  margin-bottom: 1rem;
+
+  > p {
+    margin-bottom: 0.5rem;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 10px;
+  }
 `;
 
 const Message = styled.p`
@@ -104,9 +122,20 @@ const Update = styled.p`
 const MessageBox = styled.form`
   width: 100%;
   color: white;
+  display: flex;
+  justify-content: space-between;
 
   > input {
+    width: 70%;
     box-sizing: border-box;
-    width: 100%;
+
+    &[type='submit'] {
+      width: 28%;
+      transition: box-shadow 0.1s ease-in-out;
+      box-shadow: 0px 0px 0px transparent;
+      &:hover {
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
   }
 `;
