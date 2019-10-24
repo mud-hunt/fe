@@ -15,6 +15,12 @@ const Chat = props => {
     chatBox.current.scrollTop = chatBox.current.scrollHeight;
   };
 
+  const onUpdate = update => {
+    update.type = 'update'
+    setMessages(state => state.concat([update]));
+    chatBox.current.scrollTop = chatBox.current.scrollHeight;
+  }
+
   useEffect(() => {
     if (pusher) {
       setMessageChannel(pusher.subscribe("message-channel"));
@@ -24,6 +30,7 @@ const Chat = props => {
   useEffect(() => {
     if (messageChannel) {
       messageChannel.bind("message", onMessage);
+      messageChannel.bind("player-move", onUpdate);
     }
   }, [messageChannel]);
 
@@ -39,17 +46,17 @@ const Chat = props => {
         <h3>Chat</h3>
       </ChatTitle>
       <ChatContent ref={chatBox}>
-        {messages.map(message => {
+        {messages.map((message, index) => {
           if (message.type === 'message') {
             return (
-              <Message>
+              <Message key={index}>
                 <span>{message.username}: </span>
                 {message.message}
               </Message>
             );
           }
           if (message.type === 'update') {
-            return <Update>message.message</Update>;
+            return <Update key={index}>{message.message}</Update>;
           }
           return null;
         })}
