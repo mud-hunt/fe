@@ -9,7 +9,7 @@ const HuntApp = () =>{
         <>
         <h2>Start the hunt</h2>
         <div className="row">
-            <Map />
+            <Map playerRoomId={29} />
             <SideBar>
                 <Card>
                     <CardTitle>
