@@ -62,7 +62,7 @@ const HuntApp = () =>{
             error ? <div>An error as occured, please try later</div>
             : (
                 <>
-                <div className="row">
+                <GamePanel className="row">
                 {
                     room ? <Map playerRoomId={room.roomId} />
                     : <h4>Loading Map</h4>
@@ -72,7 +72,7 @@ const HuntApp = () =>{
                         <Room room={room} move={move}/>
                     </Card>
                 </SideBar>
-            </div>
+            </GamePanel>
             <Chat pusher={pusher} />
             </>
             )
@@ -91,6 +91,13 @@ const Container = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+`;
+
+const GamePanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const SideBar = styled.div`
