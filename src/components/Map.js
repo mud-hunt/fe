@@ -7,13 +7,16 @@ import { async } from "q";
 function Map({playerRoomId}) {
   const [mapData, setMapData] = useState(null);
   //const [roomId, setRoomId] = useState(null);
-  let rooms = null;
+  const [rooms, setRooms] = useState(null);
+  const [middleX, setMiddleX] = useState(0);
+  const [middleY, setMiddleY] = useState(0);
   const canvasRef = React.useRef(null);
 
   const canvasWidth = 500;
   const canvasHeight = 500;
-  const distanceBetweenRooms = 10;
-  const roomSize = 20;
+  const distanceBetweenRooms = 20;
+  const roomSize = 25;
+
 
   const generateRooms = () => {
     if (!mapData) return null;
@@ -23,10 +26,11 @@ function Map({playerRoomId}) {
     }
 
     const addedRooms = {};
-    let maxX = 0;
-    let maxY = 0;
-    let minX = -9999;
-    let minY = -9999;
+
+    let maxX = -9999;
+    let maxY = -9999;
+    let minX = 9999;
+    let minY = 9999;
 
     const recurRooms = (room, posX = 0, posY = 0) => {
       if (posX > maxX) maxX = posX;
@@ -52,13 +56,17 @@ function Map({playerRoomId}) {
     };
 
     recurRooms(rooms[Object.keys(rooms)[0]]);
+
+    setMiddleX(maxX + minX - 0.5);
+    setMiddleY(maxY + minY - 0.5);
+
     return rooms;
   };
 
   const drawMap = () => {
     const drawLine = (fromX, fromY, toX, toY) => {
       ctx.beginPath();
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 5;
       ctx.moveTo(fromX, fromY);
       ctx.lineTo(toX, toY);
       ctx.stroke();
@@ -69,19 +77,16 @@ function Map({playerRoomId}) {
       ctx.strokeStyle = "#FFFFFF";
       const roomPosX =
         canvasWidth / 2 +
-        (room.posX - rooms[playerRoomId].posX) * (distanceBetweenRooms + roomSize);
+        (room.posX - middleX) * (distanceBetweenRooms + roomSize);
       const roomPosY =
         canvasHeight / 2 +
-        (room.posY - rooms[playerRoomId].posY) * (distanceBetweenRooms + roomSize);
+        (room.posY - middleY) * (distanceBetweenRooms + roomSize);
       ctx.fillRect(
         roomPosX - roomSize / 2,
         roomPosY - roomSize / 2,
         roomSize,
         roomSize
       );
-      ctx.fillStyle = "#000000";
-      ctx.font = "16px Arial";
-      ctx.fillText(room.id, roomPosX + roomSize / 2, roomPosY - roomSize / 2);
 
       if (room.n_to) {
         const otherRoomPosX = roomPosX;
@@ -125,18 +130,17 @@ function Map({playerRoomId}) {
       }
 
       if (room.id === playerRoomId) {
-        ctx.fillStyle = "#ff7577";
+        ctx.fillStyle = "#8FD64A";
 
         const offset = roomSize / 3;
         ctx.fillRect(
-          roomPosX - roomSize / 2 + offset,
-          roomPosY - roomSize / 2 + offset,
-          roomSize - offset * 2,
-          roomSize - offset * 2
+          roomPosX - roomSize / 1.5 + offset,
+          roomPosY - roomSize / 1.5 + offset,
+          roomSize - offset,
+          roomSize - offset
         );
       }
     };
-
     if (!rooms) return;
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -154,13 +158,12 @@ function Map({playerRoomId}) {
   }, []);
 
   useEffect(() => {
-    rooms = generateRooms();
-    drawMap();
+    setRooms(generateRooms());
   }, [mapData]);
 
   useEffect(()=>{
     drawMap();
-  }, [playerRoomId]
+  }, [rooms, playerRoomId]
   );
   return (
     <StyledCanvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />
