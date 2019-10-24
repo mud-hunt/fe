@@ -6,6 +6,7 @@ import { async } from "q";
 
 function Map({playerRoomId}) {
   const [mapData, setMapData] = useState(null);
+  //const [roomId, setRoomId] = useState(null);
   let rooms = null;
   const canvasRef = React.useRef(null);
 
@@ -157,6 +158,10 @@ function Map({playerRoomId}) {
     drawMap();
   }, [mapData]);
 
+  useEffect(()=>{
+    drawMap();
+  }, [playerRoomId]
+  );
   return (
     <StyledCanvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />
   );

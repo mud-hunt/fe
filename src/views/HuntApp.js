@@ -2,49 +2,68 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import Map from '../components/Map';
 import Room from '../components/Room';
-import { getRoomData } from '../authHandlers/authHandlers';
+import { getRoomData, moveToRoom } from '../authHandlers/authHandlers';
+import { async } from 'q';
 
 
 const HuntApp = () =>{
     const [room, setRoom] = useState(null)
+    const [error, setError] = useState(false)
+
+    const loadRoom = async () =>{
+        const currentRoom = await getRoomData();
+        if (currentRoom !== 'error'){
+            setRoom(currentRoom);
+        }
+        else {
+            setError(true)
+        }
+    }
     
     useEffect(()=>{
         if(!room){
-            const loadRoom = async () =>{
-                const currentRoom = await getRoomData();
-                setRoom(currentRoom);
-            }
             loadRoom();
         }
     }, [room]
     )
 
+    const move = async (direction) =>{
+        const newRoom = await moveToRoom(direction);
+        console.log('newRoom', newRoom)
+        if (newRoom !== 'error'){
+            // call init again to get the new room info
+            //loadRoom();
+            setRoom(newRoom);
+        }
+    }
+
     return(
         <>
         <h2>Start the hunt</h2>
-        <div className="row">
-            {
-                room ? <Map playerRoomId={room.roomId} />
-                : <h4>Loading Map</h4>
-            }
-            <SideBar>
-                <Card>
-                    <Room room={room}/>
-                </Card>
-            </SideBar>
-        </div>
+        {
+            error ? <div>An error as occured, please try later</div>
+            : (
+                <>
+                <div className="row">
+                {
+                    room ? <Map playerRoomId={room.roomId} />
+                    : <h4>Loading Map</h4>
+                }
+                <SideBar>
+                    <Card>
+                        <Room room={room} move={move}/>
+                    </Card>
+                </SideBar>
+            </div>    
+            </>
+            )
+        }
         </>
     );
 }
 
 export default HuntApp
 
-// const RoomsMap = styled.div`
-//     border:1px solid white;
-//     width:70%;
-//     height:auto;
-//     margin-left:20px;
-// `;
 
 const SideBar = styled.div`
     display:flex;

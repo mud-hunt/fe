@@ -5,7 +5,7 @@ export const getToken = () => {
 };
 
 const setHeaders = () => {
-  const Token = getToken();
+  const token = getToken();
 
   return {
     headers: {
@@ -85,3 +85,28 @@ export const getMapData = () => {
             return 'error'
         })
 }
+
+export const moveToRoom = (direction) => {
+  console.log('new direction', direction)
+  const data = {
+    "direction": direction
+  };
+  return axios.post('https://mud-hunt-be.herokuapp.com/api/adv/move/', data,
+  setHeaders())
+      .then( (response) => {
+          // handle success
+          return response.data;
+      })
+      .catch((error) => {
+          // handle error
+          return 'error'
+      })
+}
+
+
+// {
+//   "name": "testuser",
+//   "title": "Et et consequat eu elit in laboris dolor mollit.",
+//   "description": "Quis incididunt consectetur nisi laborum mollit voluptate.",
+//   "players": []
+// }

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import compass from '../assets/compass-2.png';
 
 const Room = (props) => {
-    const { room } = props;
-    const moveTo = (event) => {
-        event.preventDefault();
-    }
+    const { room, move } = props;
+    // const moveTo = (event) => {
+    //     event.preventDefault();
+    // }
 
     if(!room && room !== 'error'){
         return(
@@ -45,10 +45,10 @@ const Room = (props) => {
             }
             </CardContent>
             <CardFooter>
-                <Direction><h4 onClick={moveTo}>N</h4></Direction>
-                <Direction><h4 onClick={moveTo}>S</h4></Direction>
-                <Direction><h4 onClick={moveTo}>E</h4></Direction>
-                <Direction><h4 onClick={moveTo}>W</h4></Direction>    
+                <Direction><h4 onClick={()=>{move('n');}}>N</h4></Direction>
+                <Direction><h4 onClick={()=>{move('s');}}>S</h4></Direction>
+                <Direction><h4 onClick={()=>{move('e');}}>E</h4></Direction>
+                <Direction><h4 onClick={()=>{move('w');}}>W</h4></Direction>    
                 <Compass>
                     <img src={compass} />
                 </Compass>                
