@@ -1,40 +1,43 @@
 import axios from "axios";
 
 export const getToken = () => {
-  return window.localStorage.getItem("token");
+  try{
+    return window.localStorage.getItem("token");
+  }
+  catch(err){
+    return undefined
+  }
 };
 
 const setHeaders = () => {
   const token = getToken();
-
-  return {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `${token}`,
-      "Referer": "https://mud-hunt-be.herokuapp.com"
-    }
-  };
+  if (token) {
+    return {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`,       
+      }
+    };
+  } else {
+    return {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+  }
 };
 
-export const registrationHandler = ({
-  username,
-  email,
-  password1,
-  password2
-}) => {
+export const registrationHandler = ({ username, password1, password2 }) => {
+  console.log(password1, password2, username)
   return axios
     .post("https://mud-hunt-be.herokuapp.com/api/registration/", {
       username,
       password1,
-      password2,
-      email
+      password2
     })
     .then(response => {
-      console.log(response);
       const token = response.data.key;
-      const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
       localStorage.setItem("token", token);
-      localStorage.setItem("expirationDate", expirationDate);
     })
     .catch(error => {
       console.log(error);
@@ -42,18 +45,19 @@ export const registrationHandler = ({
 };
 
 export const loginHandler = ({ username, password }) => {
+  console.log(password, username)
   return axios
-    .post("https://mud-hunt-be.herokuapp.com/api/login/", {
-      username,
-      password
-    },
-    setHeaders())
+    .post(
+      "https://mud-hunt-be.herokuapp.com/api/login/",
+      {
+        username,
+        password
+      },
+      setHeaders()
+    )
     .then(response => {
-      console.log(response);
       const token = response.data.key;
-      const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
       localStorage.setItem("token", token);
-      localStorage.setItem("expirationDate", expirationDate);
     })
     .catch(error => {
       console.log(error);
