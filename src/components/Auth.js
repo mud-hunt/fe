@@ -4,6 +4,7 @@ import {
   loginHandler
 } from "../authHandlers/authHandlers";
 import { toast } from "react-toastify";
+import { Redirect } from "react-router-dom"
 import { ToastContainer } from "react-toastify";
 import styled from "styled-components";
 
@@ -62,6 +63,10 @@ const Auth = props => {
       toast.error("Invalid credentials");
     }
   };
+
+  if(localStorage.getItem("token")){
+    return <Redirect to="/" />
+  }
 
   return (
     <>
