@@ -34,7 +34,6 @@ export const registrationHandler = ({ username, password1, password2 }) => {
     .catch(error => {
       let errorString = "";
       error = Object.values(error.response.data);
-      debugger;
       error.forEach(element => {
         if (Array.isArray(element)) {
           for (let i = 0; i < element.length; i++) {
@@ -66,7 +65,6 @@ export const loginHandler = ({ username, password }) => {
     .catch(error => {
       let errorString = "";
       error = Object.values(error.response.data);
-      debugger;
       error.forEach(element => {
         if (Array.isArray(element)) {
           for (let i = 0; i < element.length; i++) {
