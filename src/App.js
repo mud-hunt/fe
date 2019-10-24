@@ -10,10 +10,8 @@ function App() {
     <Router>
       <Switch>
         <AppContainer>
-          <MainDialog>
-            <Route exact path="/" render={props => <Welcome {...props} />} />
-            <Route path="/auth" render={props => <Auth {...props} />} />
-          </MainDialog>
+          <Route exact path="/" render={props => <Welcome {...props} />} />
+          <Route path="/auth" render={props => <Auth {...props} />} />
           <Route exact path="/hunt" render={props => <HuntApp {...props} />} />
         </AppContainer>
       </Switch>
@@ -39,7 +37,4 @@ const AppContainer = styled.div`
     padding-top: 10rem;
     min-width: 100%;
   }
-`;
-
-const MainDialog = styled.div`
 `;
