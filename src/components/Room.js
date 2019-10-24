@@ -29,41 +29,55 @@ function Room(){
         loadRoom();
     }, [moved]
 )
-    return(
-        <>
-        <CardTitle>
-        <h3>Room {room.roomId}</h3>
-        </CardTitle>
-        <CardContent>
-        { room
-            ? (
-                <>
-                <h4>Hi {room.name}</h4>
-                <p>{room.title}</p>
-                <h4>Description</h4>
-                <p>{room.description}</p>
-                <h4>They are currently playing</h4>
-                {
-                    room.players.map((player, index) => (
-                        <li key={index}>{player}</li>
-                    ))
-                } 
-                </>   
-            )
-            : <h4>Loading</h4>
-        }
-        </CardContent>
-        <CardFooter>
-            <Direction><h4 onClick={moveTo}>N</h4></Direction>
-            <Direction><h4 onClick={moveTo}>S</h4></Direction>
-            <Direction><h4 onClick={moveTo}>E</h4></Direction>
-            <Direction><h4 onClick={moveTo}>W</h4></Direction>    
-            <Compass>
-                <img src={compass} />
-            </Compass>                
-        </CardFooter>
-        </>
-    );    
+    if(!room && room !== 'error'){
+        return(
+            <h4>Loading</h4>
+        )
+    }
+    else if(room === 'error'){
+        return(
+            <h4>Error loading the Room data</h4>
+        )
+    }
+    
+    else {
+        console.dir(room);
+        return(
+            <>
+            <CardTitle>
+            <h3>Room {room.roomId}</h3>
+            </CardTitle>
+            <CardContent>
+            { room
+                ? (
+                    <>
+                    <h4>Hi {room.name}</h4>
+                    <p>{room.title}</p>
+                    <h4>Description</h4>
+                    <p>{room.description}</p>
+                    <h4>They are currently playing</h4>
+                    {
+                        room.players.map((player, index) => (
+                            <li key={index}>{player}</li>
+                        ))
+                    } 
+                    </>   
+                )
+                : <h4>Loading</h4>
+            }
+            </CardContent>
+            <CardFooter>
+                <Direction><h4 onClick={moveTo}>N</h4></Direction>
+                <Direction><h4 onClick={moveTo}>S</h4></Direction>
+                <Direction><h4 onClick={moveTo}>E</h4></Direction>
+                <Direction><h4 onClick={moveTo}>W</h4></Direction>    
+                <Compass>
+                    <img src={compass} />
+                </Compass>                
+            </CardFooter>
+            </>
+        );    
+    }
 }
 
 export default Room

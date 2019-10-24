@@ -71,17 +71,6 @@ export const getRoomData = () => {
       })
       .catch((error) => {
           // handle error
-          console.log('The error is', error);
+          return 'error'
       })
 }
-
-// export const getRoomData = () => {
-//   return {
-//     "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
-//     "name": "testuser",
-//     "roomId": 28,
-//     "title": "Et et consequat eu elit in laboris dolor mollit.",
-//     "description": "Quis incididunt consectetur nisi laborum mollit voluptate.",
-//     "players": ['player1', 'player2', 'player3']
-//   }
-// }
