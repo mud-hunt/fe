@@ -34,7 +34,6 @@ const MainDialog = styled.div`
   width: 60%;
   max-width: 900px;
   min-width: 400px;
-  padding-top: 10vh;
   margin: 0 auto;
   h1 {
     color: white;
