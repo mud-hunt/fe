@@ -76,7 +76,7 @@ const Auth = props => {
     return <Redirect to="/hunt" />;
   }
   return (
-    <>
+    <Container>
       <div className="row center">
         <StyledToastContainer />
         <h2>Before you play</h2>
@@ -131,9 +131,19 @@ const Auth = props => {
           {action === "login" && <button className="big">LOGIN</button>}
         </div>
       </form>
-    </>
+    </Container>
   );
 };
+
+const Container = styled.section`
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const StyledToastContainer = styled(ToastContainer)`
   &.Toastify__toast-container {
