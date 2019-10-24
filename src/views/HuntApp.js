@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import Map from '../components/Map';
-import Room from '../components/Room'
+import Room from '../components/Room';
+import { getRoomData } from '../authHandlers/authHandlers';
 
 
 const HuntApp = () =>{
+    const [room, setRoom] = useState(null)
+    
+    useEffect(()=>{
+        if(!room){
+            const loadRoom = async () =>{
+                const currentRoom = await getRoomData();
+                console.log('currentRoom', currentRoom);  
+                setRoom(currentRoom);
+            }
+            loadRoom();
+        }
+    }, [room]
+    )
+
+    if(room){
+        console.log(room);  
+    }
+
     return(
         <>
         <h2>Start the hunt</h2>
@@ -12,7 +31,7 @@ const HuntApp = () =>{
             <Map playerRoomId={29} />
             <SideBar>
                 <Card>
-                    <Room />
+                    <Room room={room}/>
                 </Card>
             </SideBar>
         </div>

@@ -5,13 +5,12 @@ export const getToken = () => {
 };
 
 const setHeaders = () => {
-  const token = getToken();
+  const Token = getToken();
 
   return {
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer a77330ab56b65602d5bd55074813184c1490947a`,//`${token}`,
-      //"Referer": "https://mud-hunt-be.herokuapp.com"
+      "Authorization": `Token a77330ab56b65602d5bd55074813184c1490947a`,//`${token}`,
     }
   };
 };
@@ -61,7 +60,6 @@ export const loginHandler = ({ username, password }) => {
 };
 
 export const getRoomData = () => {
-  axios.defaults.withCredentials = true;
   return axios.get('https://mud-hunt-be.herokuapp.com/api/adv/init/',
   setHeaders())
       .then( (response) => {
@@ -74,3 +72,14 @@ export const getRoomData = () => {
           return 'error'
       })
 }
+
+// export const getRoomData = () => {
+//     return {
+//         "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
+//         "name": "testuser",
+//         "roomId": 28,
+//         "title": "Et et consequat eu elit in laboris dolor mollit.",
+//         "description": "Quis incididunt consectetur nisi laborum mollit voluptate.",
+//         "players": ['player1', 'player2', 'player3']
+//     }
+// }
