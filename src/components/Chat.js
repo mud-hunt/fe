@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { sendMessage } from '../authHandlers/authHandlers';
 
@@ -6,6 +6,11 @@ const Chat = (props) => {
   const { pusher } = props;
   const [messageChannel, setMessageChannel] = useState();
   const [messages, setMessages] = useState([]);
+  const messageBox = useRef();
+
+  const onMessage = message => {
+    setMessages([...messages, message]);
+  }
 
   useEffect(() => {
     if (pusher) {
@@ -13,9 +18,16 @@ const Chat = (props) => {
     }
   }, [pusher]);
 
+  useEffect(() => {
+    if (messageChannel) {
+      messageChannel.bind('message', onMessage);
+    }
+  }, [messageChannel]);
+
+
   const onSend = e => {
     e.preventDefault();
-    
+    console.log(messageBox.current.value);
   }
 
   return (
@@ -37,6 +49,7 @@ const Chat = (props) => {
         <input
           type='text'
           placeholder='Message...'
+          ref={messageBox}
         />
         <input
           type='submit'
