@@ -4,6 +4,8 @@ import styled from 'styled-components';
 const Chat = (props) => {
   const { pusher } = props;
   const [messageChannel, setMessageChannel] = useState();
+  const [messages, setMessages] = useState([]);
+
   useEffect(() => {
     if (pusher) {
       setMessageChannel(pusher.subscribe('message-channel'));
@@ -16,10 +18,17 @@ const Chat = (props) => {
         <h3>Chat</h3>
       </ChatTitle>
       <ChatContent>
-
+        {messages.map(message => {
+          return (
+            <Message>
+              <span>{message.username}</span>
+              {message.message}
+            </Message>
+          );
+        })}
       </ChatContent>
     </>
-  )
+  );
 }
 
 const ChatTitle = styled.div`
