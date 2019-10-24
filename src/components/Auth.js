@@ -14,7 +14,6 @@ const Auth = props => {
 
   const [state, updateState] = useState({
     username: "",
-    email: "",
     password1: "",
     password2: "",
     hasToken: getToken()
@@ -40,7 +39,6 @@ const Auth = props => {
 
     const registrationCredentials = {
       username: state.username,
-      email: state.email,
       password1: state.password1,
       password2: state.password2
     };
@@ -102,18 +100,6 @@ const Auth = props => {
             value={state.username}
             onChange={handleChange}
           />
-        </div>
-        <div className="row center">
-          {action === "register" && (
-            <input
-              type="email"
-              placeholder="Your email address"
-              name="email"
-              className="half"
-              value={state.email}
-              onChange={handleChange}
-            />
-          )}
         </div>
         <div className="row center"></div>
         <div className="row center">
