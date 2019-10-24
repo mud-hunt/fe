@@ -1,28 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import compass from '../assets/compass-2.png'
-import { getRoomData } from '../authHandlers/authHandlers';
+import React from 'react';
+import styled from 'styled-components';
+import compass from '../assets/compass-2.png';
 
-function Room(props){
-
+const Room = (props) => {
     const { room } = props;
-    // const [room, setRoom] = useState(null)
-
-    // const [moved, setMoved] = useState(false)
-
     const moveTo = (event) => {
         event.preventDefault();
-        console.log("Moving to ", event.target.innerHTML)
     }
 
-    // useEffect(()=>{
-    //     const loadRoom = async () =>{
-    //         const currentRoom = await getRoomData();
-    //         setRoom(currentRoom)    
-    //     }
-    //     loadRoom();
-    // }, [moved]
-    // )
     if(!room && room !== 'error'){
         return(
             <h4>Loading</h4>

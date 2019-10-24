@@ -12,7 +12,6 @@ const HuntApp = () =>{
         if(!room){
             const loadRoom = async () =>{
                 const currentRoom = await getRoomData();
-                console.log('currentRoom', currentRoom);  
                 setRoom(currentRoom);
             }
             loadRoom();
@@ -20,15 +19,14 @@ const HuntApp = () =>{
     }, [room]
     )
 
-    if(room){
-        console.log(room);  
-    }
-
     return(
         <>
         <h2>Start the hunt</h2>
         <div className="row">
-            <Map playerRoomId={29} />
+            {
+                room ? <Map playerRoomId={room.roomId} />
+                : <h4>Loading Map</h4>
+            }
             <SideBar>
                 <Card>
                     <Room room={room}/>

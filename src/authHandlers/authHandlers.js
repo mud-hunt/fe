@@ -73,13 +73,15 @@ export const getRoomData = () => {
       })
 }
 
-// export const getRoomData = () => {
-//     return {
-//         "uuid": "14544c34-6edc-4d94-b44d-ddf5538188fb",
-//         "name": "testuser",
-//         "roomId": 28,
-//         "title": "Et et consequat eu elit in laboris dolor mollit.",
-//         "description": "Quis incididunt consectetur nisi laborum mollit voluptate.",
-//         "players": ['player1', 'player2', 'player3']
-//     }
-// }
+export const getMapData = () => {
+    return axios.get('https://mud-hunt-be.herokuapp.com/api/adv/rooms/',
+    setHeaders())
+        .then( (response) => {
+            // handle success
+            return response.data;
+        })
+        .catch((error) => {
+            // handle error
+            return 'error'
+        })
+}
