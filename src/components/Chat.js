@@ -41,7 +41,7 @@ const Chat = props => {
   };
 
   return (
-    <>
+    <Container>
       <ChatTitle>
         <h3>Chat</h3>
       </ChatTitle>
@@ -65,12 +65,15 @@ const Chat = props => {
         <input type="text" placeholder="Message..." ref={messageBox} />
         <input type="submit" value="Send" />
       </MessageBox>
-    </>
+    </Container>
   );
 };
 
 export default Chat;
 
+const Container = styled.div`
+  width: 100%;
+`;
 
 const ChatTitle = styled.div`
   background: white;
@@ -101,4 +104,9 @@ const Update = styled.p`
 const MessageBox = styled.form`
   width: 100%;
   color: white;
+
+  > input {
+    box-sizing: border-box;
+    width: 100%;
+  }
 `;
