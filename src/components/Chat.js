@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { sendMessage } from '../authHandlers/authHandlers';
 
 const Chat = (props) => {
   const { pusher } = props;
@@ -11,6 +12,11 @@ const Chat = (props) => {
       setMessageChannel(pusher.subscribe('message-channel'));
     }
   }, [pusher]);
+
+  const onSend = e => {
+    e.preventDefault();
+    
+  }
 
   return (
     <>
@@ -27,6 +33,16 @@ const Chat = (props) => {
           );
         })}
       </ChatContent>
+      <MessageBox onSubmit={onSend}>
+        <input
+          type='text'
+          placeholder='Message...'
+        />
+        <input
+          type='submit'
+          value='Send'
+        />
+      </MessageBox>
     </>
   );
 }
@@ -49,4 +65,9 @@ const Message = styled.h4`
   > span {
     font-weight: bold;
   }
+`;
+
+const MessageBox = styled.form`
+  width: 100%;
+  color: white;
 `;
