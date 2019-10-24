@@ -3,6 +3,7 @@ import {
   registrationHandler,
   loginHandler
 } from "../authHandlers/authHandlers";
+import { toast } from "react-toastify";
 
 const Auth = props => {
   const [action, setAction] = useState("register");
@@ -45,6 +46,7 @@ const Auth = props => {
     };
     if (action === "register") {
       registrationHandler(registrationCredentials);
+      toast.success("Registration successful");
     } else if (action === "login") {
       loginHandler(loginCredentials);
     }
