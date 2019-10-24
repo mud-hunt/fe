@@ -38,9 +38,11 @@ export const registrationHandler = ({ username, password1, password2 }) => {
     .then(response => {
       const token = response.data.key;
       localStorage.setItem("token", token);
+      return response;
     })
     .catch(error => {
       console.log(error);
+      // throw error;
     });
 };
 
@@ -56,10 +58,14 @@ export const loginHandler = ({ username, password }) => {
       setHeaders()
     )
     .then(response => {
-      const token = response.data.key;
-      localStorage.setItem("token", token);
+      if (response.status === 200) {
+        const token = response.data.key;
+        localStorage.setItem("token", token);
+        return response;
+      }
     })
     .catch(error => {
       console.log(error);
+      throw error;
     });
 };
