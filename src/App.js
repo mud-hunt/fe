@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Pusher from 'pusher-js';
 import styled from "styled-components";
 import Welcome from "./components/Welcome";
 import Auth from "./components/Auth";
