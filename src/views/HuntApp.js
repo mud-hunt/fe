@@ -1,64 +1,75 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components'
+import Map from '../components/Map';
+import Room from '../components/Room';
+import { getRoomData, moveToRoom } from '../authHandlers/authHandlers';
 import compass from "../assets/compass-2.png";
-import Map from "../components/Map";
 import { getToken } from "../helpers/getToken";
 import { Redirect } from "react-router-dom"
 
-const HuntApp = () => {
-  if(!getToken()){
-    return <Redirect to="/auth" />
-  }
-  return (
-    <>
-      <h2>Start the hunt</h2>
-      <div className="row">
-        <Map />
-        <SideBar>
-          <Card>
-            <CardTitle>
-              <h3>Room 12</h3>
-            </CardTitle>
-            <CardContent>
-              <h4>Player Name</h4>
-              <p>Instriction to player</p>
-              <h4>Items</h4>
-              <p>Listing of itens in this Room</p>
-              <h4>Current players</h4>
-              <p>Info and data </p>
-            </CardContent>
-            <CardFooter>
-              <Direction>
-                <h4>N</h4>
-              </Direction>
-              <Direction>
-                <h4>S</h4>
-              </Direction>
-              <Direction>
-                <h4>E</h4>
-              </Direction>
-              <Direction>
-                <h4>W</h4>
-              </Direction>
-              <Compass>
-                <img src={compass} />
-              </Compass>
-            </CardFooter>
-          </Card>
-        </SideBar>
-      </div>
-    </>
-  );
-};
+const HuntApp = () =>{
+    const [room, setRoom] = useState(null)
+    const [error, setError] = useState(false)
 
-export default HuntApp;
+    const loadRoom = async () =>{
+        const currentRoom = await getRoomData();
+        if (currentRoom !== 'error'){
+            setRoom(currentRoom);
+        }
+        else {
+            setError(true)
+        }
+    }
+    
+    useEffect(()=>{
+        if(!room){
+            loadRoom();
+        }
+    }, [room]
+    )
 
-const RoomsMap = styled.div`
-  border: 1px solid white;
-  width: 70%;
-  height: auto;
-  margin-left: 20px;
-`;
+    const move = async (direction) =>{
+        const newRoom = await moveToRoom(direction);
+        console.log('newRoom', newRoom)
+        if (newRoom !== 'error'){
+            // call init again to get the new room info
+            //loadRoom();
+            setRoom(newRoom);
+        }
+    }
+
+    if(!getToken()){
+        return <Redirect to="/auth" />
+    }    
+
+
+    return(
+        <>
+        <h2>Start the hunt</h2>
+        {
+            error ? <div>An error as occured, please try later</div>
+            : (
+                <>
+                <div className="row">
+                {
+                    room ? <Map playerRoomId={room.roomId} />
+                    : <h4>Loading Map</h4>
+                }
+                <SideBar>
+                    <Card>
+                        <Room room={room} move={move}/>
+                    </Card>
+                </SideBar>
+            </div>    
+            </>
+            )
+        }
+        </>
+    );
+}
+
+export default HuntApp
+
 
 const SideBar = styled.div`
   display: flex;
