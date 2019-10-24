@@ -4,6 +4,8 @@ import {
   loginHandler
 } from "../authHandlers/authHandlers";
 import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import styled from "styled-components";
 
 const Auth = props => {
   const [action, setAction] = useState("register");
@@ -30,7 +32,7 @@ const Auth = props => {
     setAction(event.target.id);
   };
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault();
 
     const registrationCredentials = {
@@ -45,16 +47,26 @@ const Auth = props => {
       password: state.password1
     };
     if (action === "register") {
-      registrationHandler(registrationCredentials);
-      toast.success("Registration successful");
+      const response = await registrationHandler(registrationCredentials);
+      if (response && response.statusText === "OK") {
+        toast.success("Registration successful");
+      }
+      toast.error("Registration failed");
     } else if (action === "login") {
-      loginHandler(loginCredentials);
+      const response = await loginHandler(loginCredentials);
+      if (response && response.status === 200) {
+        toast.success("Login successful");
+        props.history.push("/hunt");
+      }
+      props.history.push("/");
+      toast.error("Invalid credentials");
     }
   };
 
   return (
     <>
       <div className="row center">
+        <StyledToastContainer />
         <h2>Before you play</h2>
       </div>
       <div className="row center">
@@ -122,5 +134,16 @@ const Auth = props => {
     </>
   );
 };
+
+const StyledToastContainer = styled(ToastContainer)`
+  &.Toastify__toast-container {
+    background-color: green;
+    color: White;
+    top: 0;
+    .Toastify__toast {
+      border-radius: 4px;
+    }
+  }
+`;
 
 export default Auth;
