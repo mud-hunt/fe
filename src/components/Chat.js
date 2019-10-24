@@ -71,6 +71,7 @@ const Chat = props => {
 
 export default Chat;
 
+
 const ChatTitle = styled.div`
   background: white;
   h3 {

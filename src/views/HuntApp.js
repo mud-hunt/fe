@@ -56,7 +56,7 @@ const HuntApp = () =>{
 
 
     return(
-        <>
+        <Container>
         <h2>Start the hunt</h2>
         {
             error ? <div>An error as occured, please try later</div>
@@ -77,18 +77,27 @@ const HuntApp = () =>{
             </>
             )
         }
-        </>
+        </Container>
     );
 }
 
-export default HuntApp
+export default HuntApp;
 
+const Container = styled.section`
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+`;
 
 const SideBar = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 10px;
-  width: 25%;
+  width: 50%;
 `;
 
 const Card = styled.div`
