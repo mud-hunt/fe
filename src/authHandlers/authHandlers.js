@@ -102,6 +102,22 @@ export const moveToRoom = (direction) => {
       })
 }
 
+export const sendMessage = (message) => {
+  const data = {
+    "message": message
+  };
+  return axios.post('https://mud-hunt-be.herokuapp.com/api/adv/say/', data,
+  setHeaders())
+      .then( (response) => {
+          // handle success
+          return response.data;
+      })
+      .catch((error) => {
+          // handle error
+          return 'error'
+      })
+}
+
 
 // {
 //   "name": "testuser",
