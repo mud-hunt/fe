@@ -14,7 +14,7 @@ function App() {
             <Route exact path="/" render={props => <Welcome {...props} />} />
             <Route exact path="/auth" render={props => <Auth {...props} />} />
           </MainDialog>
-          <HuntApp />
+          <Route exact path="/hunt" render={props => <HuntApp {...props} />} />
         </AppContainer>
       </Switch>
     </Router>
@@ -44,3 +44,4 @@ const MainDialog = styled.div`
     min-width: 100%;
   }
 `;
+
