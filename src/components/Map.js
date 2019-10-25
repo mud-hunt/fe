@@ -166,16 +166,12 @@ function Map({playerRoomId}) {
   }, [rooms, playerRoomId]
   );
   return (
-    <StyledCanvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />
+    <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />
   );
 }
 
 Map.propTypes = {
   playerRoomId: PropTypes.number.isRequired,
 }
-
-const StyledCanvas = styled.canvas`
-  border: 1px solid white;
-`;
 
 export default Map;

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import Pusher from 'pusher-js';
 import Map from '../components/Map';
 import Room from '../components/Room';
+import Chat from '../components/Chat';
 import { getRoomData, moveToRoom } from '../authHandlers/authHandlers';
 import compass from "../assets/compass-2.png";
 import { getToken } from "../helpers/getToken";
@@ -10,6 +12,7 @@ import { Redirect } from "react-router-dom"
 const HuntApp = () =>{
     const [room, setRoom] = useState(null)
     const [error, setError] = useState(false)
+    const [pusher, setPusher] = useState();
 
     const loadRoom = async () =>{
         const currentRoom = await getRoomData();
@@ -28,6 +31,15 @@ const HuntApp = () =>{
     }, [room]
     )
 
+    useEffect(() => {
+      setPusher(
+        new Pusher("ad5fb0ce29a28bd2cd61", {
+          cluster: "eu",
+          encrypted: false
+        })
+      );
+    }, []);
+
     const move = async (direction) =>{
         const newRoom = await moveToRoom(direction);
         console.log('newRoom', newRoom)
@@ -44,13 +56,13 @@ const HuntApp = () =>{
 
 
     return(
-        <>
+        <Container>
         <h2>Start the hunt</h2>
         {
             error ? <div>An error as occured, please try later</div>
             : (
                 <>
-                <div className="row">
+                <GamePanel className="row">
                 {
                     room ? <Map playerRoomId={room.roomId} />
                     : <h4>Loading Map</h4>
@@ -60,22 +72,39 @@ const HuntApp = () =>{
                         <Room room={room} move={move}/>
                     </Card>
                 </SideBar>
-            </div>    
+            </GamePanel>
+            <Chat pusher={pusher} />
             </>
             )
         }
-        </>
+        </Container>
     );
 }
 
-export default HuntApp
+export default HuntApp;
 
+const Container = styled.section`
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const GamePanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 const SideBar = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 10px;
-  width: 25%;
+  width: 50%;
 `;
 
 const Card = styled.div`

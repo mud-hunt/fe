@@ -10,10 +10,8 @@ function App() {
     <Router>
       <Switch>
         <AppContainer>
-          <MainDialog>
-            <Route exact path="/" render={props => <Welcome {...props} />} />
-            <Route path="/auth" render={props => <Auth {...props} />} />
-          </MainDialog>
+          <Route exact path="/" render={props => <Welcome {...props} />} />
+          <Route path="/auth" render={props => <Auth {...props} />} />
           <Route exact path="/hunt" render={props => <HuntApp {...props} />} />
         </AppContainer>
       </Switch>
@@ -24,24 +22,19 @@ function App() {
 export default App;
 
 const AppContainer = styled.div`
-  height: 100%;
-`;
-
-const MainDialog = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-content: center;
-  width: 60%;
-  max-width: 900px;
-  min-width: 400px;
-  padding-top: 10vw;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
   margin: 0 auto;
   h1 {
     color: white;
   }
   @media (max-width: 500px) {
-    padding-top: 10vw;
+    padding-top: 10rem;
     min-width: 100%;
   }
 `;
-
